@@ -3,7 +3,6 @@ import os
 import sys
 import time
 
-
 project_name = os.getcwd().split("/")[-1]
 _logger = logging.getLogger(project_name)
 _logger.addHandler(logging.StreamHandler())

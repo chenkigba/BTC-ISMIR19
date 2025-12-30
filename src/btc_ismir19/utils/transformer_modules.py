@@ -1,11 +1,11 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
+
+import math
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-import math
 
 
 def _gen_bias_mask(max_length):

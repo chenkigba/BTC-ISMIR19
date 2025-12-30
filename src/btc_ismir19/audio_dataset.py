@@ -1,11 +1,13 @@
-import numpy as np
-import os
-import torch
-from torch.utils.data import Dataset, DataLoader
-from btc_ismir19.utils.preprocess import Preprocess, FeatureTypes
 import math
+import os
 from multiprocessing import Pool
+
+import numpy as np
+import torch
 from sortedcontainers import SortedList
+from torch.utils.data import DataLoader, Dataset
+
+from btc_ismir19.utils.preprocess import FeatureTypes, Preprocess
 
 
 class AudioDataset(Dataset):

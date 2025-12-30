@@ -67,7 +67,88 @@ pip install -e .
 
 ## Using BTC : Recognizing chords from files in audio directory
 
+### Using BTC from Python API (推荐)
+
+本项目提供了简单易用的 Python API 接口 `ChordRecognizer`，可以更方便地在代码中使用。
+
+#### 基本使用
+
+```python
+from btc_ismir19 import ChordRecognizer
+
+# 加载预训练模型（大词汇表模式，170种和弦）
+recognizer = ChordRecognizer.from_pretrained('large_voca')
+
+# 识别单个音频文件
+chords = recognizer.recognize('audio.mp3', output_format='list')
+
+# 打印结果
+for start, end, chord in chords:
+    print(f"{start:.3f}s - {end:.3f}s: {chord}")
+```
+
+#### 使用大调/小调模式（25种和弦）
+
+```python
+# 使用大调/小调模式
+recognizer = ChordRecognizer.from_pretrained('majmin')
+chords = recognizer.recognize('audio.mp3')
+```
+
+#### 保存结果到文件
+
+```python
+# 保存为 .lab 文件
+recognizer.recognize(
+    'audio.mp3',
+    output_format='lab',
+    save_path='output/result.lab'
+)
+
+# 保存为 JSON 文件
+recognizer.recognize(
+    'audio.mp3',
+    output_format='json',
+    save_path='output/result.json'
+)
+```
+
+#### 批量处理
+
+```python
+# 批量处理多个音频文件
+audio_files = ['audio1.mp3', 'audio2.mp3', 'audio3.wav']
+results = recognizer.recognize_batch(
+    audio_files,
+    output_format='lab',
+    save_dir='output/batch_results',
+    continue_on_error=True  # 遇到错误时继续处理其他文件
+)
+```
+
+#### 使用自定义模型
+
+```python
+# 使用自定义模型路径
+recognizer = ChordRecognizer(
+    model_path='./path/to/custom_model.pt',
+    large_voca=True,  # 根据模型类型设置
+    device='cuda'     # 可选：'cuda' 或 'cpu'
+)
+```
+
+#### API 参考
+
+- `ChordRecognizer.from_pretrained(model_type)`: 从预训练模型加载
+  - `model_type`: `'majmin'` (25种和弦) 或 `'large_voca'` (170种和弦)
+- `recognize(audio_path, output_format='list', save_path=None)`: 识别单个音频文件
+  - `output_format`: `'list'`, `'lab'`, 或 `'json'`
+- `recognize_batch(audio_paths, output_format='list', save_dir=None, continue_on_error=False)`: 批量识别
+
+更多示例请参考 `example_usage.py` 文件。
+
 ### Using BTC from command line
+
 ```bash 
 $ python test.py --audio_dir audio_folder --save_dir save_folder --voca False
 ```

@@ -1,22 +1,23 @@
 # 在所有导入之前配置警告过滤器
-import btc_ismir19.utils.warnings_config  # noqa: F401
-
-import os
-import torch
-import numpy as np
-from torch import optim
-from btc_ismir19.utils import logger
-from btc_ismir19.audio_dataset import AudioDataset, AudioDataLoader
-from btc_ismir19.utils.tf_logger import TF_Logger
-from btc_ismir19.btc_model import BTC_model
-from btc_ismir19.baseline_models import CNN, CRNN, Crf
-from btc_ismir19.utils.hparams import HParams
 import argparse
-from btc_ismir19.utils.pytorch_utils import adjusting_learning_rate
+import os
+
+import numpy as np
+import torch
+from torch import optim
+
+import btc_ismir19.utils.warnings_config  # noqa: F401
+from btc_ismir19.audio_dataset import AudioDataLoader, AudioDataset
+from btc_ismir19.baseline_models import CNN, CRNN, Crf
+from btc_ismir19.btc_model import BTC_model
+from btc_ismir19.utils import logger
+from btc_ismir19.utils.hparams import HParams
 from btc_ismir19.utils.mir_eval_modules import (
     large_voca_score_calculation_crf,
     root_majmin_score_calculation_crf,
 )
+from btc_ismir19.utils.pytorch_utils import adjusting_learning_rate
+from btc_ismir19.utils.tf_logger import TF_Logger
 
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()

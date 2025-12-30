@@ -29,10 +29,9 @@ References
 
 """
 
+import mir_eval
 import numpy as np
 import pandas as pd
-import mir_eval
-
 
 CHORD_DTYPE = [
     ("root", np.int64),

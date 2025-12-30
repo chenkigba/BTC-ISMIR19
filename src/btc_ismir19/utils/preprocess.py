@@ -1,11 +1,13 @@
+import math
 import os
-import librosa
-from btc_ismir19.utils.chords import Chords
 import re
 from enum import Enum
+
+import librosa
 import pyrubberband as pyrb
 import torch
-import math
+
+from btc_ismir19.utils.chords import Chords
 
 
 class FeatureTypes(Enum):

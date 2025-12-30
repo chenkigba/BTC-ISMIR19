@@ -1,21 +1,22 @@
 # 在所有导入之前配置警告过滤器
-import btc_ismir19.utils.warnings_config  # noqa: F401
-
+import argparse
 import os
-import torch
-import numpy as np
+
 import mir_eval
+import numpy as np
 import pretty_midi as pm
-from btc_ismir19.utils import logger
+import torch
+
+import btc_ismir19.utils.warnings_config  # noqa: F401
 from btc_ismir19.btc_model import BTC_model
+from btc_ismir19.utils import logger
 from btc_ismir19.utils.hparams import HParams
 from btc_ismir19.utils.mir_eval_modules import (
     audio_file_to_features,
+    get_audio_paths,
     idx2chord,
     idx2voca_chord,
-    get_audio_paths,
 )
-import argparse
 
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()

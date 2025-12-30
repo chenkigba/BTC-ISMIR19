@@ -1,8 +1,9 @@
-import numpy as np
+import os
+
 import librosa
 import mir_eval
+import numpy as np
 import torch
-import os
 
 idx2chord = [
     "C",

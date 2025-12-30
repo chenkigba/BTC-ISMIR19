@@ -1,7 +1,9 @@
-import torch
-import numpy as np
-import os
 import math
+import os
+
+import numpy as np
+import torch
+
 from btc_ismir19.utils import logger
 
 use_cuda = torch.cuda.is_available()

@@ -23,7 +23,11 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# hatchling 会自动发现 src/ 目录下的包，无需手动配置 only-include
+[tool.hatch.build.targets.wheel]
+packages = ["src/btc_ismir19"]
+
+# 数据文件（run_config.yaml、models/）已在 src/btc_ismir19/ 下，
+# hatchling 会自动包含，无需 force-include
 
 [dependency-groups]
 dev = []

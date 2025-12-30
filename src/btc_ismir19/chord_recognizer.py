@@ -12,6 +12,7 @@ import numpy as np
 import torch
 
 from btc_ismir19.btc_model import BTC_model
+from btc_ismir19.utils import get_package_resource_path
 from btc_ismir19.utils.hparams import HParams
 from btc_ismir19.utils.mir_eval_modules import (
     audio_file_to_features,
@@ -33,15 +34,15 @@ class ChordRecognizer:
         ...     print(f"{start:.3f} {end:.3f} {chord}")
     """
 
-    # 预训练模型路径映射
+    # 预训练模型路径映射（使用包内相对路径）
     PRETRAINED_MODELS = {
         "majmin": {
-            "model_path": "./test/btc_model.pt",
+            "model_path": "models/btc_model.pt",
             "num_chords": 25,
             "large_voca": False,
         },
         "large_voca": {
-            "model_path": "./test/btc_model_large_voca.pt",
+            "model_path": "models/btc_model_large_voca.pt",
             "num_chords": 170,
             "large_voca": True,
         },
@@ -71,14 +72,13 @@ class ChordRecognizer:
 
         # 加载配置
         if config_path is None:
-            # 从项目根目录查找 run_config.yaml
-            package_dir = Path(__file__).parent.parent.parent
-            config_path = package_dir / "run_config.yaml"
+            # 从包内获取 run_config.yaml
+            config_path = get_package_resource_path("run_config.yaml")
 
         config_path = Path(config_path)
         if not config_path.exists():
             raise FileNotFoundError(
-                f"配置文件不存在: {config_path}. 请确保 run_config.yaml 在项目根目录。"
+                f"配置文件不存在: {config_path}. 如果使用预训练模型，请确保包安装正确。"
             )
 
         self.config = HParams.load(str(config_path))
@@ -147,8 +147,10 @@ class ChordRecognizer:
             )
 
         model_info = cls.PRETRAINED_MODELS[model_type]
+        # 从包内获取预训练模型路径
+        model_path = get_package_resource_path(model_info["model_path"])
         return cls(
-            model_path=model_info["model_path"],
+            model_path=model_path,
             config_path=config_path,
             device=device,
             large_voca=model_info["large_voca"],
@@ -254,8 +256,8 @@ class ChordRecognizer:
                 for i in range(n_timestep):
                     if t == 0 and i == 0:
                         prev_chord = prediction[i].item()
-                        # 验证索引是否在字典中
-                        if prev_chord not in self.idx_to_chord:
+                        # 验证索引是否有效
+                        if not self._is_valid_chord_idx(prev_chord):
                             raise ValueError(
                                 f"模型预测的索引 {prev_chord} 不在和弦字典中。"
                                 f"可能的原因：模型类型与 large_voca 设置不匹配。"
@@ -264,7 +266,7 @@ class ChordRecognizer:
 
                     current_chord = prediction[i].item()
                     # 验证索引
-                    if current_chord not in self.idx_to_chord:
+                    if not self._is_valid_chord_idx(current_chord):
                         raise ValueError(
                             f"模型预测的索引 {current_chord} 不在和弦字典中。"
                             f"可能的原因：模型类型与 large_voca 设置不匹配。"
@@ -329,6 +331,14 @@ class ChordRecognizer:
             raise ValueError(
                 f"不支持的输出格式: {output_format}. 支持: 'list', 'lab', 'json'"
             )
+
+    def _is_valid_chord_idx(self, idx: int) -> bool:
+        """检查和弦索引是否有效"""
+        if isinstance(self.idx_to_chord, dict):
+            return idx in self.idx_to_chord
+        else:
+            # 列表类型，检查索引范围
+            return 0 <= idx < len(self.idx_to_chord)
 
     def _merge_consecutive_chords(
         self, segments: List[Tuple[float, float, str]]

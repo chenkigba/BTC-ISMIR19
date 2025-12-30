@@ -147,6 +147,104 @@ recognizer = ChordRecognizer(
 
 更多示例请参考 `example_usage.py` 文件。
 
+### 输出文件格式
+
+#### .lab 文件格式
+
+`.lab` 文件是标准的和弦标注文件格式，每行表示一个和弦时间段：
+
+```
+开始时间 结束时间 和弦标签
+```
+
+示例：
+```
+0.000 2.500 C
+2.500 5.000 C:min
+5.000 7.500 F
+7.500 10.000 G
+```
+
+- **时间单位**：秒（精确到小数点后3位）
+- **和弦标签格式**：`根音:和弦类型` 或 `根音`（大调时省略 `:maj`）
+
+#### JSON 格式
+
+JSON 格式返回一个数组，每个元素包含 `start`、`end` 和 `chord` 字段：
+
+```json
+[
+  {
+    "start": 0.0,
+    "end": 2.5,
+    "chord": "C"
+  },
+  {
+    "start": 2.5,
+    "end": 5.0,
+    "chord": "C:min"
+  }
+]
+```
+
+#### 列表格式
+
+Python 列表格式，每个元素是一个元组 `(start_time, end_time, chord_label)`：
+
+```python
+[
+    (0.0, 2.5, "C"),
+    (2.5, 5.0, "C:min"),
+    (5.0, 7.5, "F")
+]
+```
+
+### 和弦类型说明
+
+根据选择的模型类型，输出可能包含以下和弦：
+
+#### 大调/小调模式（majmin，25种和弦）
+
+- **12个大调**：`C`, `C#`, `D`, `D#`, `E`, `F`, `F#`, `G`, `G#`, `A`, `A#`, `B`
+- **12个小调**：`C:min`, `C#:min`, `D:min`, `D#:min`, `E:min`, `F:min`, `F#:min`, `G:min`, `G#:min`, `A:min`, `A#:min`, `B:min`
+- **无和弦**：`N`（表示该时间段没有和弦）
+
+#### 大词汇表模式（large_voca，170种和弦）
+
+大词汇表模式支持更丰富的和弦类型，共170种：
+
+**根音**（12种）：
+- `C`, `C#`, `D`, `D#`, `E`, `F`, `F#`, `G`, `G#`, `A`, `A#`, `B`
+
+**和弦类型**（14种）：
+- `min` - 小三和弦（minor）
+- `maj` - 大三和弦（major，通常省略，如 `C` 表示 `C:maj`）
+- `dim` - 减三和弦（diminished）
+- `aug` - 增三和弦（augmented）
+- `min6` - 小六和弦（minor sixth）
+- `maj6` - 大六和弦（major sixth）
+- `min7` - 小七和弦（minor seventh）
+- `minmaj7` - 小大七和弦（minor-major seventh）
+- `maj7` - 大七和弦（major seventh）
+- `7` - 属七和弦（dominant seventh）
+- `dim7` - 减七和弦（diminished seventh）
+- `hdim7` - 半减七和弦（half-diminished seventh）
+- `sus2` - 挂二和弦（suspended second）
+- `sus4` - 挂四和弦（suspended fourth）
+
+**特殊标记**：
+- `N` - 无和弦（no chord）
+- `X` - 未知和弦（unknown chord）
+
+**示例和弦**：
+- `C` - C大调
+- `C:min` - C小调
+- `C:7` - C属七和弦
+- `C:maj7` - C大七和弦
+- `C:min7` - C小七和弦
+- `C:dim` - C减三和弦
+- `C:sus4` - C挂四和弦
+
 ### Using BTC from command line
 
 ```bash 

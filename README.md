@@ -4,15 +4,56 @@ This repository has the source codes for the paper "A Bi-Directional Transformer
 
 <img src="png/model.png">
 
+## Installation
+
+### 使用 uv (推荐)
+
+本项目使用 [uv](https://github.com/astral-sh/uv) 进行现代化的 Python 依赖管理。
+
+首先安装 uv：
+```bash
+# macOS 和 Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 或使用 pip
+pip install uv
+```
+
+然后安装项目依赖：
+```bash
+# 同步依赖并创建虚拟环境
+uv sync
+
+# 激活虚拟环境（如果需要）
+source .venv/bin/activate  # Linux/macOS
+# 或
+.venv\Scripts\activate  # Windows
+```
+
+### 传统安装方式
+
+如果您不使用 uv，也可以使用 pip 安装依赖：
+```bash
+pip install -e .
+```
+
 ## Requirements
-- pytorch >= 1.0.0
-- numpy >= 1.16.2
-- pandas >= 0.24.1
+
+项目依赖（已定义在 `pyproject.toml` 中）：
+- pytorch >= 2.0.0
+- numpy >= 1.24.0
+- pandas >= 2.0.0
 - pyrubberband >= 0.3.0
-- librosa >= 0.6.3
-- pyyaml >= 3.13
-- mir_eval >= 0.5
-- pretty_midi >= 0.2.8
+- librosa >= 0.10.0
+- pyyaml >= 6.0
+- mir-eval >= 0.7
+- pretty-midi >= 0.2.9
+- tensorflow >= 2.13.0
+- scipy >= 1.11.0
+- sortedcontainers >= 2.4.0
+- pillow >= 10.0.0
+
+**注意**: 本项目需要 Python 3.11 或更高版本。
 
 ## File descriptions
   * `audio_dataset.py` : loads data and preprocesses label files to chord labels and mp3 files to constant-q transformation. 

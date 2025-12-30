@@ -1,3 +1,6 @@
+# 在所有导入之前配置警告过滤器
+import utils.warnings_config  # noqa: F401
+
 import os
 from torch import optim
 from utils import logger
@@ -9,10 +12,6 @@ from utils.hparams import HParams
 import argparse
 from utils.pytorch_utils import adjusting_learning_rate
 from utils.mir_eval_modules import large_voca_score_calculation_crf, root_majmin_score_calculation_crf
-import warnings
-
-warnings.filterwarnings("ignore", category=UserWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")

@@ -1,3 +1,6 @@
+# 在所有导入之前配置警告过滤器
+import utils.warnings_config  # noqa: F401
+
 import os
 import mir_eval
 import pretty_midi as pm
@@ -5,9 +8,6 @@ from utils import logger
 from btc_model import *
 from utils.mir_eval_modules import audio_file_to_features, idx2chord, idx2voca_chord, get_audio_paths
 import argparse
-import warnings
-
-warnings.filterwarnings('ignore')
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")

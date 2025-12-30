@@ -2,7 +2,7 @@ import numpy as np
 import os
 import torch
 from torch.utils.data import Dataset, DataLoader
-from utils.preprocess import Preprocess, FeatureTypes
+from btc_ismir19.utils.preprocess import Preprocess, FeatureTypes
 import math
 from multiprocessing import Pool
 from sortedcontainers import SortedList

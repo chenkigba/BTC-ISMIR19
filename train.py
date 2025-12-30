@@ -1,17 +1,17 @@
 # 在所有导入之前配置警告过滤器
-import utils.warnings_config  # noqa: F401
+import btc_ismir19.utils.warnings_config  # noqa: F401
 
 import os
 from torch import optim
-from utils import logger
-from audio_dataset import AudioDataset, AudioDataLoader
-from utils.tf_logger import TF_Logger
-from btc_model import *
-from baseline_models import CNN, CRNN
-from utils.hparams import HParams
+from btc_ismir19.utils import logger
+from btc_ismir19.audio_dataset import AudioDataset, AudioDataLoader
+from btc_ismir19.utils.tf_logger import TF_Logger
+from btc_ismir19.btc_model import *
+from btc_ismir19.baseline_models import CNN, CRNN
+from btc_ismir19.utils.hparams import HParams
 import argparse
-from utils.pytorch_utils import adjusting_learning_rate
-from utils.mir_eval_modules import root_majmin_score_calculation, large_voca_score_calculation
+from btc_ismir19.utils.pytorch_utils import adjusting_learning_rate
+from btc_ismir19.utils.mir_eval_modules import root_majmin_score_calculation, large_voca_score_calculation
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")

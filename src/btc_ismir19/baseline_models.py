@@ -1,9 +1,9 @@
-from utils.hparams import HParams
+from btc_ismir19.utils.hparams import HParams
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import time
-from crf_model import CRF
+from btc_ismir19.crf_model import CRF
 
 use_cuda = torch.cuda.is_available()
 
@@ -132,7 +132,12 @@ class CRNN(nn.Module):
 
 
 if __name__ == "__main__":
-    config = HParams.load("run_config.yaml")
+    import os
+    # 获取项目根目录（包含 run_config.yaml 的目录）
+    # 从包目录向上两级到达项目根目录
+    package_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    config_path = os.path.join(package_dir, "run_config.yaml")
+    config = HParams.load(config_path)
     device = torch.device("cuda" if use_cuda else "cpu")
     config.model['probs_out'] = True
     batch_size = 2

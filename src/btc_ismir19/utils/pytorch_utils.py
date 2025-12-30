@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import os
 import math
-from utils import logger
+from btc_ismir19.utils import logger
 
 use_cuda = torch.cuda.is_available()
 

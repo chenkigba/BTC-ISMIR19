@@ -1,12 +1,12 @@
 # 在所有导入之前配置警告过滤器
-import utils.warnings_config  # noqa: F401
+import btc_ismir19.utils.warnings_config  # noqa: F401
 
 import os
 import mir_eval
 import pretty_midi as pm
-from utils import logger
-from btc_model import *
-from utils.mir_eval_modules import audio_file_to_features, idx2chord, idx2voca_chord, get_audio_paths
+from btc_ismir19.utils import logger
+from btc_ismir19.btc_model import *
+from btc_ismir19.utils.mir_eval_modules import audio_file_to_features, idx2chord, idx2voca_chord, get_audio_paths
 import argparse
 logger.logging_verbosity(1)
 use_cuda = torch.cuda.is_available()

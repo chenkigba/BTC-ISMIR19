@@ -181,7 +181,7 @@ class bi_directional_self_attention_layers(nn.Module):
         )
         self.embedding_proj = nn.Linear(embedding_size, hidden_size, bias=False)
         self.self_attn_layers = nn.Sequential(
-            *[bi_directional_self_attention(*params) for l in range(num_layers)]
+            *[bi_directional_self_attention(*params) for _ in range(num_layers)]
         )
         self.layer_norm = LayerNorm(hidden_size)
         self.input_dropout = nn.Dropout(input_dropout)

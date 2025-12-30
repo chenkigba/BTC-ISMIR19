@@ -65,9 +65,6 @@ class CRF(nn.Module):
                     0 and num_tags
         Returns: Sequence score of shape [batch size]
         """
-
-        batch_size = feats.shape[0]
-
         # Compute feature scores
         feat_score = feats.gather(2, tags.unsqueeze(-1)).squeeze(-1).sum(dim=-1)
 

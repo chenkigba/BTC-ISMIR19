@@ -38,9 +38,13 @@ class TF_Logger(object):
                 # HxW -> HxWx1
                 arr = arr[..., None]
             if arr.ndim != 3:
-                raise ValueError(f"Expected image with 2 or 3 dims, got shape={arr.shape}")
+                raise ValueError(
+                    f"Expected image with 2 or 3 dims, got shape={arr.shape}"
+                )
             if arr.shape[2] not in (1, 3, 4):
-                raise ValueError(f"Expected channel dim to be 1/3/4, got shape={arr.shape}")
+                raise ValueError(
+                    f"Expected channel dim to be 1/3/4, got shape={arr.shape}"
+                )
 
             if arr.dtype != np.uint8:
                 # Normalize to 0-255
@@ -50,7 +54,11 @@ class TF_Logger(object):
                 if amax - amin < 1e-8:
                     arr = np.zeros_like(arr, dtype=np.uint8)
                 else:
-                    arr = ((arr - amin) / (amax - amin) * 255.0).clip(0, 255).astype(np.uint8)
+                    arr = (
+                        ((arr - amin) / (amax - amin) * 255.0)
+                        .clip(0, 255)
+                        .astype(np.uint8)
+                    )
 
             stacked.append(arr)
 
